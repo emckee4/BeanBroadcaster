@@ -7,7 +7,7 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="NDUappSV" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="BeanBroadcaster" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -32,7 +32,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <variation key="widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="22" y="302" width="44" height="34"/>
+                                    <rect key="frame" x="22" y="302" width="128" height="34"/>
                                 </variation>
                                 <connections>
                                     <action selector="readButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="P2h-0D-K8h"/>
@@ -73,32 +73,6 @@
                                     <rect key="frame" x="248" y="235" width="17" height="21"/>
                                 </variation>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rk6-1t-grN">
-                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <state key="normal" title="Send">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <variation key="widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="96" y="304" width="66" height="30"/>
-                                </variation>
-                                <connections>
-                                    <action selector="scratchUpdateButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="EJk-D2-K58"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e34-ep-Ho0">
-                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <state key="normal" title="Broadcast">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <variation key="widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="198" y="302" width="106" height="34"/>
-                                </variation>
-                                <connections>
-                                    <action selector="broadcastButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6gA-ib-61m"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bXe-af-hYC">
                                 <rect key="frame" x="-23" y="-15" width="46" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
@@ -129,7 +103,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="beanTableCell" rowHeight="39" id="QCj-kB-F2A" customClass="BeanSelectionCell" customModule="NDUappSV" customModuleProvider="target">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="beanTableCell" rowHeight="39" id="QCj-kB-F2A" customClass="BeanSelectionCell" customModule="BeanBroadcaster" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="QCj-kB-F2A" id="Tbk-9v-KUu">
@@ -204,6 +178,19 @@
                                     <rect key="frame" x="16" y="342" width="294" height="226"/>
                                 </variation>
                             </textView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e34-ep-Ho0">
+                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="Broadcast">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="158" y="302" width="146" height="34"/>
+                                </variation>
+                                <connections>
+                                    <action selector="broadcastButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6gA-ib-61m"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <variation key="default">
@@ -214,12 +201,11 @@
                                 <exclude reference="uzI-aa-kmP"/>
                                 <exclude reference="cgL-yC-iro"/>
                                 <exclude reference="88v-a3-Hoj"/>
-                                <exclude reference="rk6-1t-grN"/>
-                                <exclude reference="e34-ep-Ho0"/>
                                 <exclude reference="bXe-af-hYC"/>
                                 <exclude reference="cZe-da-vy6"/>
                                 <exclude reference="Xp4-Uq-0uT"/>
                                 <exclude reference="le1-DA-or7"/>
+                                <exclude reference="e34-ep-Ho0"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
@@ -230,12 +216,11 @@
                                 <include reference="uzI-aa-kmP"/>
                                 <include reference="cgL-yC-iro"/>
                                 <include reference="88v-a3-Hoj"/>
-                                <include reference="rk6-1t-grN"/>
-                                <include reference="e34-ep-Ho0"/>
                                 <include reference="bXe-af-hYC"/>
                                 <include reference="cZe-da-vy6"/>
                                 <include reference="Xp4-Uq-0uT"/>
                                 <include reference="le1-DA-or7"/>
+                                <include reference="e34-ep-Ho0"/>
                             </mask>
                         </variation>
                     </view>
@@ -258,13 +243,13 @@
         <!--Management Table View Controller-->
         <scene sceneID="Twf-kP-CDg">
             <objects>
-                <tableViewController id="gAN-TZ-evC" customClass="ManagementTableViewController" customModule="NDUappSV" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="gAN-TZ-evC" customClass="ManagementTableViewController" customModule="BeanBroadcaster" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="96" sectionHeaderHeight="22" sectionFooterHeight="22" id="mh3-H2-ytg">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="managementBasicCell" rowHeight="96" id="e3c-K0-52M" customClass="ManagementTableCellBasic" customModule="NDUappSV" customModuleProvider="target">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="managementBasicCell" rowHeight="96" id="e3c-K0-52M" customClass="ManagementTableCellBasic" customModule="BeanBroadcaster" customModuleProvider="target">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="e3c-K0-52M" id="Z3Y-pN-vOl">
                                     <autoresizingMask key="autoresizingMask"/>

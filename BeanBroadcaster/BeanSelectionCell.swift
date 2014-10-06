@@ -5,6 +5,9 @@
 //  Created by Evan Mckee on 10/4/14.
 //  Copyright (c) 2014 Evan Mckee. All rights reserved.
 //
+//  Home page's table view cell showing beans selected/deselected for broadcast
+
+
 
 import UIKit
 

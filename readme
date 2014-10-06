@@ -12,12 +12,14 @@ Next major goal: flesh out management/config view with access to bean management
     Add dropdowns for more details in management page. -- Alternative is to make second view a normal view focused on a single beans details.
 
 
-for 0.21-0.22: more cleanup
-    remove autoconnect toggle on management button, global autoconnect should be set to true until prefs are implemented
-
+for 0.22: more cleanup
     fix read for multiple beans
     swipe to forget bean?
+    experiment with interface for individual bean management
 
+mid .2s: implement type changing (with different keyboards?)
+    option for affixing trailing character
+    reimplement scratch reading so that read values are stored in each bean's bean container
 
 -notes: consider removing either "Broadcast" or "Send Button" now that selection table is implemented
         read should read multiple beans, but nil read protection should be added first if possible
@@ -25,8 +27,12 @@ for 0.21-0.22: more cleanup
             add count to connection indicator at top also (x/beanList.count)
 
 
-
-
+///////////////////////////////////////////////////////////
+v0.21
+Some deprecated functions removed
+global autoconnect toggle option removed for now. Will be true until reimplemented
+"Send" button removed since broadcast does everything now
+--Reconsidering use of tableview for management view
 
 
 ///////////////////////////////////////////////////////////

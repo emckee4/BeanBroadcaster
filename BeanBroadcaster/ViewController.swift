@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 Evan Mckee. All rights reserved.
 //
 
+
+
 import UIKit
 
 
@@ -18,7 +20,7 @@ class ViewController: UIViewController, PTDBeanManagerDelegate, PTDBeanDelegate,
     var scratchVal: ScratchData?
     var beanList: [BeanContainer] = []
     var autoConnect: Bool = true
-    var typeDummy = true // temp var for type button toggle
+    var typeDummy = true // temp var for type button toggle, maybe make it an enum later
     
     
     @IBOutlet weak var tableView: UITableView!
@@ -43,42 +45,14 @@ class ViewController: UIViewController, PTDBeanManagerDelegate, PTDBeanDelegate,
     }
 
     
-    // PTDBeanManager functions
+
     
-    func beanManagerDidUpdateState(beanManager: PTDBeanManager!) {
-        if beanManager.state == BeanManagerState.PoweredOn {
-            beanManager.startScanningForBeans_error(nil)
-            
-            let delay = dispatch_time(DISPATCH_TIME_NOW, Int64(15 * Double(NSEC_PER_SEC)))
-            dispatch_after(delay, dispatch_get_main_queue(), {
-                self.autoReconnect()
-            })
-        }
-        // do something to indicate connection, toggle a bool and display it or something
-        
-    }
-    
-    
-    
-    func sendDataToBean(scratch:NSNumber, message:String, target:PTDBean) {
-        //sends to target bean
-//            target.setScratchNumber(scratch, withValue: ScratchData.strToDataWithTrail(message))
-        target.setScratchBank(scratch, data: ScratchData.strToDataWithTrail(message))
-    }
     
     func sendDataToSelectedBeans(scratch:NSNumber, message:String) {
         for beanTupple in beanList {
             if beanTupple.isSelected == true {
             beanTupple.bean.setScratchBank(scratch, data: ScratchData.strToDataWithTrail(message))
             }
-        }
-    }
-    
-    
-    func sendDataToAll(scratch:NSNumber, message:String) {
-        for beanTupple in beanList {
-//            beanTupple.bean.setScratchNumber(scratch, withValue: ScratchData.strToDataWithTrail(message))
-            beanTupple.bean.setScratchBank(scratch, data: ScratchData.strToDataWithTrail(message))
         }
     }
     
@@ -96,7 +70,19 @@ class ViewController: UIViewController, PTDBeanManagerDelegate, PTDBeanDelegate,
 //////////////////////////////////////////////////////////////////////
     //   Delegate stuff
     
-    // Bean Manager Delegate stuff
+    // PTDBeanManager Delegate stuff
+    
+    func beanManagerDidUpdateState(beanManager: PTDBeanManager!) {
+        if beanManager.state == BeanManagerState.PoweredOn {
+            beanManager.startScanningForBeans_error(nil)
+            
+            let delay = dispatch_time(DISPATCH_TIME_NOW, Int64(15 * Double(NSEC_PER_SEC)))
+            dispatch_after(delay, dispatch_get_main_queue(), {
+                self.autoReconnect()
+            })
+        }
+    }
+
 
     func BeanManager(beanManager: PTDBeanManager!, didDiscoverBean bean: PTDBean!, error: NSError!) {
         printToIphone("Discovered bean: \(bean.name)")
@@ -133,11 +119,8 @@ class ViewController: UIViewController, PTDBeanManagerDelegate, PTDBeanDelegate,
         checkGlobalConnectionStatus()
     }
     // end of bean manager delegate stuff
-    //PTDBean Delegates:
-//    func bean(bean: PTDBean!, didUpdateScratchNumber number: NSNumber!, withValue data: NSData!) {
-//        scratchVal = ScratchData(sendingBean: bean, number: number, data: data)
-//    }
-    
+
+    // PTDBean delegates
    
     func bean(bean: PTDBean!, didUpdateScratchBank bank: Int, data: NSData!) {
         scratchVal = ScratchData(sendingBean: bean, number: bank, data: data)
@@ -205,9 +188,9 @@ class ViewController: UIViewController, PTDBeanManagerDelegate, PTDBeanDelegate,
     
     
     @IBAction func broadcastButtonPressed(sender: UIButton) {
-        //sendDataToAll(targetScratchNumberLabel.text!.toInt()!, message: scratchUpdateTextField.text)
         scratchUpdateTextField.resignFirstResponder()
         sendDataToSelectedBeans(targetScratchNumberLabel.text!.toInt()!, message: scratchUpdateTextField.text)
+        scratchUpdateTextField.resignFirstResponder()
     }
     
     @IBAction func readButtonPressed(sender: UIButton) {
@@ -218,21 +201,11 @@ class ViewController: UIViewController, PTDBeanManagerDelegate, PTDBeanDelegate,
         self.targetScratchNumberLabel.text = Int(sender.value).description
     }
     
-
-    @IBAction func scratchUpdateButtonPressed(sender: UIButton) { //should be renamed send button or singleTargetSendButton
-        //currently hardcoded to send to beanList[0]
-        let target = 0 // temp hardcoded target
-        if beanList.isEmpty == false && beanList[target].bean.state == BeanState.ConnectedAndValidated {
-            sendDataToBean(targetScratchNumberLabel.text!.toInt()!, message: scratchUpdateTextField.text, target: beanList[target].bean)
-        }
-        scratchUpdateTextField.resignFirstResponder()
-        //println("Data from text entry: " + scratchUpdateTextField.text)
-    }
     
     @IBAction func managementButtonPressed(sender: UIButton) {
         //for management view launch. toggles autoconnect for now
-        autoConnect = !autoConnect
-        printToIphone("autoConnect set to \(autoConnect)")
+//        autoConnect = !autoConnect
+//        printToIphone("autoConnect set to \(autoConnect)")
         
     }
 
@@ -271,7 +244,7 @@ class ViewController: UIViewController, PTDBeanManagerDelegate, PTDBeanDelegate,
 
     
     func updateScratchDisplay(scratchNumber:Int){
-        // hardcoded to read beanList[0]
+
         if beanList.isEmpty == false && beanList[0].bean.state == BeanState.ConnectedAndValidated {
             beanList[0].bean.readScratchBank(scratchNumber)
             let delay = dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC)))
