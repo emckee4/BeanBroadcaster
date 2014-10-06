@@ -1,0 +1,132 @@
+BeanBroadcaster is an app designed to simultaneously controll multiple BlueBeans with a flatter and denser interface. It started as a debugging tool for a preject I'm working on as well as a means for practicing app development in swift. Comments, critiques, suggestions, and help are welcome. If I can get it cleaned up, prettied up, and feature filled enough I may attempt to submit it to the app store as a free app for people whose Bean apps are better served by it.
+
+
+Created by Evan Mckee on 9/3/14.
+Copyright (c) 2014 Evan Mckee. All rights reserved.
+
+
+Upcoming Goals
+Next major goal: flesh out management/config view with access to bean management options, trying to expose most features available in the library.
+    Try to add upload of firmware or sketches if possible.
+    Layout needs to be fixed for different sized iphones.
+    Add dropdowns for more details in management page. -- Alternative is to make second view a normal view focused on a single beans details.
+
+
+for 0.21-0.22: more cleanup
+    remove autoconnect toggle on management button, global autoconnect should be set to true until prefs are implemented
+
+    fix read for multiple beans
+    swipe to forget bean?
+
+
+-notes: consider removing either "Broadcast" or "Send Button" now that selection table is implemented
+        read should read multiple beans, but nil read protection should be added first if possible
+        change connection label on BeanSelectionCell to a button which attempts connection if disconnect? should still require going to config to turn off connection flag?
+            add count to connection indicator at top also (x/beanList.count)
+
+
+
+
+
+
+///////////////////////////////////////////////////////////
+v0.2
+Project, directories, everything renamed to BeanBroadcaster. New git started
+
+///////////////////////////////////////////////////////////
+v0.17
+Management tableview trivially implemented, displaying names of discovered beans.
+
+///////////////////////////////////////////////////////////
+v0.16
+-Broadcast target selection TableView implemented
+-Broadcast button now calls sendDataToSelectedBeans, sending only to selected beans
+
+///////////////////////////////////////////////////////////
+v0.15
+-Updated to Bean iOS SDK version 0.52
+-Code tweaks associated with above to regain proper functionality
+
+///////////////////////////////////////////////////////////
+v0.14
+-slight tweaks to interface, storyboard in preparation for next major changes
+-updatelist button renamed, moved. Still toggling autoconnect for now but will eventually launch management view
+-type button added, connected but only toggling placeholder dummy
+
+
+
+///////////////////////////////////////////////////////////
+v0.13
+-autoreconnect on dc enabled
+-additional global autoConnect variable added. Toggled with UpdateList button for now.
+-BeanContainer class now contained in beanList, also contains broadcast target flag and autoconnect flag
+-Code refactored to support BeanContainer. Autoconnecting to all for now
+-ScratchData now has a pseudo class variable containing a trailing digit/char to be added for unique transmissions using strToDataWithTrail() class fcn.
+
+
+
+////////////////////////////////////////////////////////////
+
+v0.12
+-Some code cleanup and beanList compliance
+-several functions hardcoded to use beanList[0] until selector is added- these should later be updated to work on a list of beans
+-refactoring to add checkGobalConnectionStatus() to update connection status label
+-Interface and buttons renamed for clarity. Broadcast added, updatelist now unused
+-ScratchData struct now carries associated bean. Associated functions updated to use it. A manager for multiple scratchData's is now needed. I could swap out use of timer and have something autorun on scratch update. This might require a list or queue of requests though.
+
+
+
+-should add a random trailing char when sending to bean so it won't discard repeat messages-- add only to find(bean.name, "NDU/EDU") != nil
+-fix for randomly appended chars awaiting better string slicing. Also the fix should take into account extra trailing char option above
+-still crashing on empty scratch read-- problem with bean libraries
+
+
+Future
+-autoresize would be nice
+-listview of some sort to select target beans
+-add autoreconnect
+-add menu or view for choosing beans to connect to or disconnect from
+-add menu or view for choosing which beans to send to/receive from at a given time
+
+///////////////////////////////////////////////////////////
+
+v 0.11
+-Multiple connections and broadcast working!
+-Need to finish replacing single bean var uses with beanList
+
+
+remaining from v 0.1:
+-Still randomly appending chars to returned messages from scratch
+-May crash on reading empty scratch
+-sizing of view elements is poor, not autoresizing
+
+Next Steps:
+-Finish refactoring for beanList
+-Need to handle reading from multiple at once-> might want to build better version of ScratchData, or container for them- or extension to PTDBean?
+-protection against calls to do stuff to discovered but disconnected beans
+-add menu or view for choosing beans to connect to or disconnect from
+-add menu or view for choosing which beans to send to/receive from at a given time
+
+Look into:
+Auto-reconnect to previously discovered device? -> add some timer logic in didDisconect function
+
+
+////////////////////////////////////////////////////////////////
+
+v 0.1 Issues:
+-Still randomly appending chars to returned messages from scratch
+-Autoconnecting, oblivious to other beans
+-May crash on reading empty scratch
+-sizing of view elements is poor, not autoresizing
+
+-next steps:
+convert ptdbean to array of [ptdbean], refactor
+then test operating as normal
+
+-add connect/disconnect button (connect to whatever is first in queue)
+
+-add chooser of some sort (or active display of available beans)
+
+-add ability to select bean and connect
+
+--- Develop ability to connect to multiple beans at once
