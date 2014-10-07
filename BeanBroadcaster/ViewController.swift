@@ -221,10 +221,14 @@ class ViewController: UIViewController, PTDBeanManagerDelegate, PTDBeanDelegate,
     // bean interaction
     
     
-    func sendDataToSelectedBeans(scratch:NSNumber, message:String) {
-        for beanTupple in beanList {
-            if beanTupple.isSelected == true {
-                beanTupple.bean.setScratchBank(scratch, data: ScratchData.strToDataWithTrail(message))
+    func sendDataToSelectedBeans(scratchNum:NSNumber, message:String) {
+        for beanItem in beanList {
+            if beanItem.isSelected == true {
+                let rawData = ScratchData.strToDataWithTrail(message) // implement something here for conversion of different types
+                beanItem.bean.setScratchBank(scratchNum, data: rawData)
+                beanItem.savedScratchVals[scratchNum].data = rawData
+                beanItem.savedScratchVals[scratchNum].type = ScratchData.DataType.UTF8
+                beanItem.savedScratchVals[scratchNum].currentValueWasSet = true
             }
         }
     }
@@ -269,25 +273,22 @@ class ViewController: UIViewController, PTDBeanManagerDelegate, PTDBeanDelegate,
         }
     }
     
-    func checkGlobalConnectionStatus() -> Bool{
+    func checkGlobalConnectionStatus() -> Int{
         tableView.reloadData()
-        var isConnected = false
-        if beanList.isEmpty == false {
-            
-            for beanContainer in beanList {
-                if beanContainer.bean.state == BeanState.ConnectedAndValidated {
-                    isConnected = true
-                }
+        var connectedCount = 0
+        for beanContainer in beanList {
+            if beanContainer.bean.state == BeanState.ConnectedAndValidated {
+                connectedCount += 1
             }
         }
-        if isConnected == true {
-            connectionStatusLabel.text = "Connected"
+        if connectedCount > 0 {
+            connectionStatusLabel.text = "(\(connectedCount)/\(beanList.count)) Connected"
             connectionStatusLabel.backgroundColor = UIColor.greenColor()
         } else {
-            connectionStatusLabel.text = "Disconnected"
+            connectionStatusLabel.text = "(0/\(beanList.count)) Connected"
             connectionStatusLabel.backgroundColor = UIColor.redColor()
         }
-        return isConnected
+        return connectedCount
     }
 
     

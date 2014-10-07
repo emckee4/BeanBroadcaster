@@ -17,19 +17,28 @@ for 0.22-0.25: more cleanup
     swipe to forget bean?
     experiment with interface for individual bean management
     utilize scratch bank memory (and flag) for sent values
+    change config button on selection cell to one of the built in symbols then have this launch second view
 
 mid .2s: implement type changing (with different keyboards?)
-    option for affixing trailing character
-    reimplement scratch reading so that read values are stored in each bean's bean container
+    allow user option for turning off affixing trailing character
+
 
 -notes: read should read multiple beans, but nil read protection should be added first if possible
         change connection label on BeanSelectionCell to a button which attempts connection if disconnect? should still require going to config to turn off connection flag?
             add count to connection indicator at top also (x/beanList.count)
 Longterm: attempt to add Serial broadcasting? Need to decide if it should be through main VC interface or in its own scene
-        Add global prefs for what is displayed in the text console
+        Add global prefs for what is displayed in the text console, verbosity, etc
         Add global prefs in general
+        Allow removal of text console display and replacing with something else like send favorites, history, or something of the sort
 
 Bugs: Program sometimes crashes when attempting to read an empty scratch.
+
+
+///////////////////////////////////////////////////////////
+v0.23
+sendDataToSelectedBean now updating stored scratch values
+connection count added to connection status label
+
 
 ///////////////////////////////////////////////////////////
 v0.22
