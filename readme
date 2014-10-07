@@ -28,7 +28,15 @@ Longterm: attempt to add Serial broadcasting? Need to decide if it should be thr
         Add global prefs in general
         Allow removal of text console display and replacing with something else like send favorites, history, or something of the sort
 
-Bugs: Program sometimes crashes when attempting to read an empty scratch.
+
+
+Known Bugs: Program sometimes crashes when attempting to read an empty scratch.
+
+
+
+///////////////////////////////////////////////////////////
+v0.260
+starting process of reimplementing ManagementTVC to focus on single bean's attributes: config button sends us to MTVC of that bean
 
 
 ///////////////////////////////////////////////////////////

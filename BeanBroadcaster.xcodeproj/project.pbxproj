@@ -101,7 +101,6 @@
 				C01A7AFC19B7A420008D2567 /* Images.xcassets */,
 				C0D9F47319E32C3600E81961 /* Models */,
 				C01A7AF319B7A420008D2567 /* Supporting Files */,
-				C00EA4E619BE9D0800347648 /* BeanBroadcaster_bridging_header.h */,
 			);
 			path = BeanBroadcaster;
 			sourceTree = "<group>";
@@ -109,6 +108,7 @@
 		C01A7AF319B7A420008D2567 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				C00EA4E619BE9D0800347648 /* BeanBroadcaster_bridging_header.h */,
 				C01A7AF419B7A420008D2567 /* Info.plist */,
 			);
 			name = "Supporting Files";

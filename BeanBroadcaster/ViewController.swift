@@ -153,7 +153,7 @@ class ViewController: UIViewController, PTDBeanManagerDelegate, PTDBeanDelegate,
         } else {
             cell.backgroundColor = UIColor.clearColor()
         }
-        
+        cell.configButton.tag = indexPath.row
         
         return cell
     }
@@ -221,9 +221,10 @@ class ViewController: UIViewController, PTDBeanManagerDelegate, PTDBeanDelegate,
     ///////////////////////////////////////
     // segues
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        let senderIndex = (sender! as UIButton).tag
         let NavVC = segue.destinationViewController as UINavigationController
         let mtvc = NavVC.viewControllers[0] as ManagementTableViewController
-        mtvc.beanList = beanList
+        mtvc.beanContainer = beanList[senderIndex]
     }
     
     ///////////////////////////////////////

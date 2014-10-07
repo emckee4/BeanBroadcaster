@@ -18,6 +18,7 @@ class BeanSelectionCell: UITableViewCell {
 
     @IBOutlet weak var statusLabel: UILabel!
     
+    @IBOutlet weak var configButton: UIButton!
 
     
     
@@ -33,8 +34,7 @@ class BeanSelectionCell: UITableViewCell {
     }
 
     
-    @IBAction func configButtonPressed(sender: UIButton) {
-    }
+
     
-    
+
 }

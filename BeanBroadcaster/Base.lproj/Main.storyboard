@@ -99,7 +99,6 @@
                                 </variation>
                                 <connections>
                                     <action selector="managementButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="SE7-FK-vRl"/>
-                                    <segue destination="4BQ-tb-Yi6" kind="show" identifier="showNavWithManagementTVC" id="bnF-A0-9s8"/>
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="39" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Xp4-Uq-0uT">
@@ -122,7 +121,7 @@
                                                         <rect key="frame" x="252" y="3" width="34" height="30"/>
                                                     </variation>
                                                     <connections>
-                                                        <action selector="configButtonPressed:" destination="QCj-kB-F2A" eventType="touchUpInside" id="ZCR-0M-2Io"/>
+                                                        <segue destination="4BQ-tb-Yi6" kind="show" identifier="showBeanDetail" id="BYi-nF-QMz"/>
                                                     </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bean Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dhe-Je-ru0">
@@ -161,6 +160,7 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="beanNameLabel" destination="Dhe-Je-ru0" id="5vu-Rm-Aio"/>
+                                            <outlet property="configButton" destination="ANJ-6v-wh7" id="q4z-Du-pPu"/>
                                             <outlet property="statusLabel" destination="83V-c9-M6d" id="tVE-Ey-JBQ"/>
                                         </connections>
                                     </tableViewCell>

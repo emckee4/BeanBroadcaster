@@ -10,7 +10,7 @@ import UIKit
 
 class ManagementTableViewController: UITableViewController {
 
-    var beanList: [BeanContainer]!
+    var beanContainer: BeanContainer!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,13 +37,13 @@ class ManagementTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
-        return beanList.count
+        return 1
     }
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("managementBasicCell", forIndexPath: indexPath) as ManagementTableCellBasic
-        cell.beanNameTextField.text = beanList[indexPath.row].bean.name
+        cell.beanNameTextField.text = beanContainer.bean.name
         
         return cell
     }
