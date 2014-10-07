@@ -20,7 +20,7 @@ class ViewController: UIViewController, PTDBeanManagerDelegate, PTDBeanDelegate,
     var scratchVal: ScratchData?
     var beanList: [BeanContainer] = []
     var autoConnect: Bool = true
-    var typeDummy = true // temp var for type button toggle, maybe make it an enum later
+    var globalDataType = ScratchData.DataType.UTF8
     
     
     @IBOutlet weak var tableView: UITableView!
@@ -35,7 +35,6 @@ class ViewController: UIViewController, PTDBeanManagerDelegate, PTDBeanDelegate,
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        //scratchUpdateTextField.delegate = self
         beanManager.delegate = self;
     }
 
@@ -48,23 +47,7 @@ class ViewController: UIViewController, PTDBeanManagerDelegate, PTDBeanDelegate,
 
     
     
-    func sendDataToSelectedBeans(scratch:NSNumber, message:String) {
-        for beanTupple in beanList {
-            if beanTupple.isSelected == true {
-            beanTupple.bean.setScratchBank(scratch, data: ScratchData.strToDataWithTrail(message))
-            }
-        }
-    }
-    
-    
-    func connectToBean(bean:PTDBean){
-        var error: NSError?
-        bean.delegate = self
-        beanManager.connectToBean(bean, error: &error)
-        if error != nil {
-            println("connectToBean: Error connecting to \(bean.name),  \(error)")
-        }
-    }
+
     
     
 //////////////////////////////////////////////////////////////////////
@@ -123,7 +106,13 @@ class ViewController: UIViewController, PTDBeanManagerDelegate, PTDBeanDelegate,
     // PTDBean delegates
    
     func bean(bean: PTDBean!, didUpdateScratchBank bank: Int, data: NSData!) {
-        scratchVal = ScratchData(sendingBean: bean, number: bank, data: data)
+        let index = findBeanIndex(bean)
+        if index == nil {
+            println("bean:didUpdateScratchBank failed because \(bean.name) not found in beanList")
+            return
+        }
+        beanList[index!].savedScratchVals[bank].data = data
+        beanList[index!].savedScratchVals[bank].currentValueWasSet = false
     }
     
     //UITextField delegate:
@@ -213,8 +202,8 @@ class ViewController: UIViewController, PTDBeanManagerDelegate, PTDBeanDelegate,
     @IBAction func typeButtonPressed(sender: UIButton) {
         //should toggle type var, possibly class var of MessageConverter class
         // for now it will just toggle a dummy (typeDummy)
-        typeDummy = !typeDummy
-        typeButtonField.setTitle("\(typeDummy)", forState: UIControlState.Normal)
+        globalDataType = globalDataType.next()
+        typeButtonField.setTitle("\(globalDataType.description())", forState: UIControlState.Normal)
     }
 
 
@@ -228,7 +217,27 @@ class ViewController: UIViewController, PTDBeanManagerDelegate, PTDBeanDelegate,
         mtvc.beanList = beanList
     }
     
+    ///////////////////////////////////////
+    // bean interaction
     
+    
+    func sendDataToSelectedBeans(scratch:NSNumber, message:String) {
+        for beanTupple in beanList {
+            if beanTupple.isSelected == true {
+                beanTupple.bean.setScratchBank(scratch, data: ScratchData.strToDataWithTrail(message))
+            }
+        }
+    }
+    
+    
+    func connectToBean(bean:PTDBean){
+        var error: NSError?
+        bean.delegate = self
+        beanManager.connectToBean(bean, error: &error)
+        if error != nil {
+            println("connectToBean: Error connecting to \(bean.name),  \(error)")
+        }
+    }
     
     
     
@@ -249,8 +258,8 @@ class ViewController: UIViewController, PTDBeanManagerDelegate, PTDBeanDelegate,
             beanList[0].bean.readScratchBank(scratchNumber)
             let delay = dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC)))
             dispatch_after(delay, dispatch_get_main_queue(), {
-                if self.scratchVal != nil {
-                    self.printToIphone("Bean: \(self.scratchVal!.bean.name) Number: \(self.scratchVal!.number), Value: \(self.scratchVal!.text)")
+                if self.beanList[0].savedScratchVals[scratchNumber].data != nil {
+                    self.printToIphone("Bean: \( self.beanList[0].bean.name ) Number: \(scratchNumber), Value: \(self.beanList[0].savedScratchVals[scratchNumber].text)")
                 } else {
                     println("scratchlastUpdated still nil")
                 }
@@ -299,7 +308,14 @@ class ViewController: UIViewController, PTDBeanManagerDelegate, PTDBeanDelegate,
         })
     }
     
-    
+    func findBeanIndex(bean:PTDBean) -> Int? {
+        for (index,beanContainer) in enumerate(beanList) {
+            if beanContainer.bean.identifier == bean.identifier {
+                return index
+            }
+        }
+        return nil
+    }
     
 }
 
