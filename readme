@@ -12,20 +12,17 @@ Next major goal: flesh out management/config view with access to bean management
     Add dropdowns for more details in management page. -- Alternative is to make second view a normal view focused on a single beans details.
 
 
-for 0.22-0.25: more cleanup
-    fix read for multiple beans
-    swipe to forget bean?
+0.26-0.29:
     experiment with interface for individual bean management
-    utilize scratch bank memory (and flag) for sent values
     change config button on selection cell to one of the built in symbols then have this launch second view
-
-mid .2s: implement type changing (with different keyboards?)
+    implement type changing (with different keyboards?)
     allow user option for turning off affixing trailing character
+    swipe to forget bean?
+    clean up this readme and organize plans/priorities in it. Maybe categorize by timeframe and certainty/speculativeness of implementation
 
-
--notes: read should read multiple beans, but nil read protection should be added first if possible
+-notes: Maybe remove BeanContainer and fold its stuff into an extension of PTDBean?
         change connection label on BeanSelectionCell to a button which attempts connection if disconnect? should still require going to config to turn off connection flag?
-            add count to connection indicator at top also (x/beanList.count)
+
 Longterm: attempt to add Serial broadcasting? Need to decide if it should be through main VC interface or in its own scene
         Add global prefs for what is displayed in the text console, verbosity, etc
         Add global prefs in general
@@ -35,7 +32,15 @@ Bugs: Program sometimes crashes when attempting to read an empty scratch.
 
 
 ///////////////////////////////////////////////////////////
-v0.23
+v0.25
+Reading of multiple beans now enabled through updateScratchBanksForSelectedBeans(). Old code commented out, to be removed next commit
+fixed delegate for uitextfield having been reset
+typeButton now displaying properly on load
+BeanManager status changes posted to iphone text console now
+
+
+///////////////////////////////////////////////////////////
+v0.24
 sendDataToSelectedBean now updating stored scratch values
 connection count added to connection status label
 

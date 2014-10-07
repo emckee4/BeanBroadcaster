@@ -12,7 +12,7 @@ import UIKit
 
 
 
-class ViewController: UIViewController, PTDBeanManagerDelegate, PTDBeanDelegate, UITableViewDataSource, UITableViewDelegate {
+class ViewController: UIViewController, PTDBeanManagerDelegate, PTDBeanDelegate, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
     
     let beanManager = PTDBeanManager()
     
@@ -36,6 +36,7 @@ class ViewController: UIViewController, PTDBeanManagerDelegate, PTDBeanDelegate,
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         beanManager.delegate = self;
+        typeButtonField.setTitle(globalDataType.description(), forState: UIControlState.Normal)
     }
 
     override func didReceiveMemoryWarning() {
@@ -63,6 +64,13 @@ class ViewController: UIViewController, PTDBeanManagerDelegate, PTDBeanDelegate,
             dispatch_after(delay, dispatch_get_main_queue(), {
                 self.autoReconnect()
             })
+            printToIphone("Scanning for Beans")
+        } else if beanManager.state == BeanManagerState.Resetting {
+                printToIphone("BeanManager resetting")
+        } else if beanManager.state == BeanManagerState.PoweredOff {
+            printToIphone("BeanManager powered off")
+        } else {
+            printToIphone("BeanManager: something went wrong")
         }
     }
 
@@ -184,7 +192,8 @@ class ViewController: UIViewController, PTDBeanManagerDelegate, PTDBeanDelegate,
     
     @IBAction func readButtonPressed(sender: UIButton) {
         let num:Int = targetScratchNumberLabel.text!.toInt()!
-        updateScratchDisplay(num) //this should take a target var
+        //updateScratchDisplay(num) //this should take a target var
+        updateScratchBanksForSelectedBeans(num)
     }
     @IBAction func scratchNumberStepperPressed(sender: UIStepper) {
         self.targetScratchNumberLabel.text = Int(sender.value).description
@@ -203,7 +212,7 @@ class ViewController: UIViewController, PTDBeanManagerDelegate, PTDBeanDelegate,
         //should toggle type var, possibly class var of MessageConverter class
         // for now it will just toggle a dummy (typeDummy)
         globalDataType = globalDataType.next()
-        typeButtonField.setTitle("\(globalDataType.description())", forState: UIControlState.Normal)
+        typeButtonField.setTitle(globalDataType.description(), forState: UIControlState.Normal)
     }
 
 
@@ -244,6 +253,25 @@ class ViewController: UIViewController, PTDBeanManagerDelegate, PTDBeanDelegate,
     }
     
     
+    func updateScratchBanksForSelectedBeans(scratchNumber:Int){
+        //var beansToRevisit:[NSUUID] = [] // this is used in case the list changes while waiting for
+        let delay = dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC)))
+        for listedBean in beanList {
+            if listedBean.isSelected {
+                listedBean.bean.readScratchBank(scratchNumber)
+                //beansToRevisit.append(listedBean.bean.identifier)
+                
+                dispatch_after(delay, dispatch_get_main_queue(), {
+                    if listedBean.savedScratchVals[scratchNumber].data != nil {
+                        self.printToIphone("Bean: \( listedBean.bean.name ) Number: \(scratchNumber), Value: \(listedBean.savedScratchVals[scratchNumber].text)")
+                    } else {
+                        println("scratch \(scratchNumber) for \(listedBean.bean.name) still nil")
+                    }
+                })
+            }
+        }
+    }
+    
     
     
     ///////////////////////////////////////
@@ -256,22 +284,22 @@ class ViewController: UIViewController, PTDBeanManagerDelegate, PTDBeanDelegate,
 
 
     
-    func updateScratchDisplay(scratchNumber:Int){
-
-        if beanList.isEmpty == false && beanList[0].bean.state == BeanState.ConnectedAndValidated {
-            beanList[0].bean.readScratchBank(scratchNumber)
-            let delay = dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC)))
-            dispatch_after(delay, dispatch_get_main_queue(), {
-                if self.beanList[0].savedScratchVals[scratchNumber].data != nil {
-                    self.printToIphone("Bean: \( self.beanList[0].bean.name ) Number: \(scratchNumber), Value: \(self.beanList[0].savedScratchVals[scratchNumber].text)")
-                } else {
-                    println("scratchlastUpdated still nil")
-                }
-            })
-        } else {
-            println("bean nil")
-        }
-    }
+//    func updateScratchDisplay(scratchNumber:Int){
+//
+//        if beanList.isEmpty == false && beanList[0].bean.state == BeanState.ConnectedAndValidated {
+//            beanList[0].bean.readScratchBank(scratchNumber)
+//            let delay = dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC)))
+//            dispatch_after(delay, dispatch_get_main_queue(), {
+//                if self.beanList[0].savedScratchVals[scratchNumber].data != nil {
+//                    self.printToIphone("Bean: \( self.beanList[0].bean.name ) Number: \(scratchNumber), Value: \(self.beanList[0].savedScratchVals[scratchNumber].text)")
+//                } else {
+//                    println("scratchlastUpdated still nil")
+//                }
+//            })
+//        } else {
+//            println("bean nil")
+//        }
+//    }
     
     func checkGlobalConnectionStatus() -> Int{
         tableView.reloadData()
