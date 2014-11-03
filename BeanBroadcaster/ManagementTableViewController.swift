@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ManagementTableViewController: UITableViewController {
+class ManagementTableViewController: UITableViewController, UITextFieldDelegate{
 
     var beanContainer: BeanContainer!
     
@@ -47,6 +47,22 @@ class ManagementTableViewController: UITableViewController {
         
         return cell
     }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    func textFieldDidEndEditing(textField: UITextField) {
+        switch textField.accessibilityLabel{ // abusing the accessibilityLabel to identify different textfields embedded in cells instead of using tag
+        case "beanNameTextField":
+            println("beanNameTextField did end editing") // pop alert to confirm rename of bean here, then call bean rename
+            renameBean(textField.text)
+        default:
+            println("unknown text field did end editing")
+        }
+    }
+    
     
 
     /*
@@ -96,5 +112,43 @@ class ManagementTableViewController: UITableViewController {
     @IBAction func navBarBackButtonPressed(sender: UIBarButtonItem) {
         dismissViewControllerAnimated(true, completion: nil)
     }
+    
+    
+    // helpers
+    
+    func renameBean(newName:String){
+        let oldName = beanContainer.bean.name
+        if newName == oldName {
+            return
+        }
+        
 
+        var alert = UIAlertController(title: "Confirmation", message: "Are you sure you want to change Bean Name from \(beanContainer.bean.name) to \(newName)?", preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Confirm", style: UIAlertActionStyle.Destructive, handler: { action in
+            self.beanContainer.bean.radioConfig.name = newName
+            self.beanContainer.bean.setRadioConfig(self.beanContainer.bean.radioConfig)
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: { action in println("implement textfield change back here") }))
+        presentViewController(alert, animated: true, completion: nil)
+        
+        
+    }
 }
+        /*
+        let result = popChangeConfirmation("beanName", oldValue: beanContainer.bean.name, newValue: newName)
+        println("xx result")
+    }
+    
+    func popChangeConfirmation(fieldName:String, oldValue:String, newValue:String, handler: <#((UIAlertAction!) -> Void)!##(UIAlertAction!) -> Void#> ) -> Bool {
+        var response = false
+        
+
+        var alert = UIAlertController(title: "Confirmation", message: "Are you sure you want to change \(fieldName) from \(oldValue) to \(newValue)?", preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Confirm", style: UIAlertActionStyle.Destructive, handler: { action in println("confirm"); response = true}))
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: { action in println("cancel"); response = false }))
+        presentViewController(alert, animated: true, completion: nil)
+
+    return response
+    }
+*/
+

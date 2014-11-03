@@ -83,10 +83,10 @@ class ScratchData {
                 return ""
             }
             var tempVal = NSString(data: self.data!, encoding: NSUTF8StringEncoding)
-            if tempVal.length > 2 {
-                return tempVal
+            if tempVal!.length > 2 {
+                return tempVal!
             } else {
-                return tempVal
+                return tempVal!
             }
         }
     }

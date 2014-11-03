@@ -1,20 +1,22 @@
-BeanBroadcaster is an app designed to simultaneously controll multiple BlueBeans with a flatter and denser interface. It started as a debugging tool for a preject I'm working on as well as a means for practicing app development in swift. Comments, critiques, suggestions, and help are welcome. If I can get it cleaned up, prettied up, and feature filled enough I may attempt to submit it to the app store as a free app for people whose Bean apps are better served by it.
+BeanBroadcaster is an app designed to simultaneously controll multiple BlueBeans with a flatter and denser interface. It started as a debugging tool for a preject I'm working on as well as a means for practicing app development in swift.
+
+This app autoconnects to beans in the vicinity and will broadcast a message to any selected (indicated by the cyan highlighting of the cell). Currently this only takes utf8 with an extra random char attached to ensure consecutive similar updates trigger actions by the bean. It will also strip an extra char when appropriate on reads. I'm opening this in an awkward half done state since I've been working on other things and this app has a low priority at this point. Feel free to make any improvements, suggestions, critiques, or do whatever you want with this.'
+
 
 
 Created by Evan Mckee on 9/3/14.
-Copyright (c) 2014 Evan Mckee. All rights reserved.
+Copyright (c) 2014 Evan Mckee.
 
 
 Upcoming Goals
 Next major goal: flesh out management/config view with access to bean management options, trying to expose most features available in the library.
     Try to add upload of firmware or sketches if possible.
     Layout needs to be fixed for different sized iphones.
-    Add dropdowns for more details in management page. -- Alternative is to make second view a normal view focused on a single beans details.
+
 
 
 0.26-0.29:
     experiment with interface for individual bean management
-    change config button on selection cell to one of the built in symbols then have this launch second view
     implement type changing (with different keyboards?)
     allow user option for turning off affixing trailing character
     swipe to forget bean?
@@ -23,15 +25,15 @@ Next major goal: flesh out management/config view with access to bean management
 -notes: Maybe remove BeanContainer and fold its stuff into an extension of PTDBean?
         change connection label on BeanSelectionCell to a button which attempts connection if disconnect? should still require going to config to turn off connection flag?
 
-Longterm: attempt to add Serial broadcasting? Need to decide if it should be through main VC interface or in its own scene
-        Add global prefs for what is displayed in the text console, verbosity, etc
-        Add global prefs in general
-        Allow removal of text console display and replacing with something else like send favorites, history, or something of the sort
-
 
 
 Known Bugs: Program sometimes crashes when attempting to read an empty scratch.
+*** Attempting to rename the bean crashes the app
 
+
+
+v0.27
+Cleaned up compile errors resulting from swift/xcode changes.
 
 
 ///////////////////////////////////////////////////////////

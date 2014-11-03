@@ -235,10 +235,10 @@ class ViewController: UIViewController, PTDBeanManagerDelegate, PTDBeanDelegate,
         for beanItem in beanList {
             if beanItem.isSelected == true {
                 let rawData = ScratchData.strToDataWithTrail(message) // implement something here for conversion of different types
-                beanItem.bean.setScratchBank(scratchNum, data: rawData)
-                beanItem.savedScratchVals[scratchNum].data = rawData
-                beanItem.savedScratchVals[scratchNum].type = ScratchData.DataType.UTF8
-                beanItem.savedScratchVals[scratchNum].currentValueWasSet = true
+                beanItem.bean.setScratchBank(Int(scratchNum), data: rawData)
+                beanItem.savedScratchVals[Int(scratchNum)].data = rawData
+                beanItem.savedScratchVals[Int(scratchNum)].type = ScratchData.DataType.UTF8
+                beanItem.savedScratchVals[Int(scratchNum)].currentValueWasSet = true
             }
         }
     }
